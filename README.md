@@ -7,4 +7,6 @@ Este es un proyecto final del curso de TokioSchoool se basa en una plataforma de
 > python3 -m venv venv
 > source venv/bin/activate
 > pip install -r requirements.txt
+> cd BaseTokioFilms
+> python manage.py runserver
 > ```

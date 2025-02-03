@@ -18,10 +18,10 @@
 </head>
 
 <body>
-    <div class="flex items-center justify-center min-h-screen bg-tokio-films">
+    <div class="relative flex items-center justify-center min-h-screen bg-tokio-films">
 
         <!-- Filtro oscuro -->
-        <div class="absolute inset-0 bg-black opacity-70 z-0"></div>
+        <div class="absolute inset-0 w-full h-full bg-black opacity-70 z-0"></div>
 
         <!-- Logo de TokioFilms -->
         <div class="absolute top-5 left-5 z-30">
@@ -32,10 +32,25 @@
         </div>
 
         <!-- Contenido principal -->
-        <div class="relative z-10 w-full max-w-md p-8 mx-4 bg-black/65 rounded-lg mt-10 sm:mt-0">
-            <h2 class="text-white text-3xl font-bold mb-8">Iniciar sesión</h2>
+        <div class="relative z-10 w-full max-w-md p-8 mx-4 bg-black/65 rounded-lg mt-16 mb-8">
+            <h2 class="text-white text-3xl font-bold mb-8">Crear una cuenta</h2>
 
             <form class="space-y-4">
+                <div>
+                    <input type="text" placeholder="Nombre"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                </div>
+
+                <div>
+                    <input type="text" placeholder="Apellidos"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                </div>
+
+                <div>
+                    <input type="number" placeholder="Número de teléfono"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                </div>
+
                 <div>
                     <input type="email" placeholder="Email"
                         class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
@@ -43,6 +58,10 @@
 
                 <div>
                     <input type="password" placeholder="Contraseña"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                </div>
+                <div>
+                    <input type="password" placeholder="Repetir contraseña"
                         class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
                 </div>
 
@@ -60,9 +79,9 @@
                 </div>
 
                 <div class="mt-16 text-gray-400 text-base">
-                    ¿Primera vez en TokioFilms?
-                    <a href="/register" class="text-white hover:underline ml-1">
-                        Crea una cuenta
+                    ¿Ya tienes una cuenta?
+                    <a href="/login" class="text-white hover:underline ml-1">
+                        Iniciar sesión
                     </a>
                 </div>
             </form>

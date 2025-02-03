@@ -6,3 +6,6 @@ def index(request):
 
 def login(request):
     return render(request, 'AppFilms/login.html')
+
+def register(request):
+    return render(request, 'AppFilms/register.html')

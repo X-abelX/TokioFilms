@@ -4,22 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TokioFilms</title>
+    <title>TokioFilms - Registro</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     {% load static %}
     <link rel="icon" href="{% static 'AppFilms/TokioFilms.ico' %}" type="image/x-icon">
     <style>
         .bg-tokio-films {
-            background-image: url('/static/AppFilms/fondoPeliculas.jpg');
+            background-image: url('{% static "AppFilms/fondoPeliculas.jpg" %}');
             background-size: cover;
             background-position: center;
+        }
+        .error {
+            color: #ff4d4d;
+            font-size: 0.875rem;
+            margin-top: 4px;
         }
     </style>
 </head>
 
 <body>
     <div class="relative flex items-center justify-center min-h-screen bg-tokio-films">
-
         <!-- Filtro oscuro -->
         <div class="absolute inset-0 w-full h-full bg-black opacity-70 z-0"></div>
 
@@ -32,55 +36,45 @@
         </div>
 
         <!-- Contenido principal -->
-        <div class="relative z-10 w-full max-w-md p-8 mx-4 bg-black/65 rounded-lg mt-16 mb-8">
+        <div class="relative z-10 w-full max-w-md p-8 mx-4 bg-black/65 rounded-lg mt-16 mb-8 shadow-lg">
             <h2 class="text-white text-3xl font-bold mb-8">Crear una cuenta</h2>
 
-            <form class="space-y-4">
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <div class="text-red-500 text-sm">{{ form.non_field_errors }}</div>
+                
                 <div>
-                    <input type="text" placeholder="Nombre"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                    <input type="text" name="username" placeholder="Nombre de usuario"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" required />
+                    <div class="error">{{ form.username.errors }}</div>
                 </div>
 
                 <div>
-                    <input type="text" placeholder="Apellidos"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                    <input type="email" name="email" placeholder="Email"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" required />
+                    <div class="error">{{ form.email.errors }}</div>
                 </div>
 
                 <div>
-                    <input type="number" placeholder="Número de teléfono"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                    <input type="password" name="password1" placeholder="Contraseña"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" required />
+                    <div class="error">{{ form.password1.errors }}</div>
                 </div>
-
+                
                 <div>
-                    <input type="email" placeholder="Email"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
-                </div>
-
-                <div>
-                    <input type="password" placeholder="Contraseña"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
-                </div>
-                <div>
-                    <input type="password" placeholder="Repetir contraseña"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                    <input type="password" name="password2" placeholder="Confirmar contraseña"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" required />
+                    <div class="error">{{ form.password2.errors }}</div>
                 </div>
 
                 <button type="submit"
                     class="w-full bg-[#E50914] text-white py-3 rounded font-semibold hover:bg-[#f6121d] transition duration-200">
-                    Iniciar sesión
+                    Crear cuenta
                 </button>
 
-                <div class="flex items-center justify-between text-gray-400 text-sm">
-                    <label class="flex items-center">
-                        <input type="checkbox" class="mr-2 bg-zinc-800 border-zinc-700" />
-                        Recuérdame
-                    </label>
-                    <a href="#" class="hover:underline">¿Necesitas ayuda?</a>
-                </div>
-
-                <div class="mt-16 text-gray-400 text-base">
+                <div class="mt-6 text-gray-400 text-sm text-center">
                     ¿Ya tienes una cuenta?
-                    <a href="/login" class="text-white hover:underline ml-1">
+                    <a href="{% url 'login' %}" class="text-white hover:underline ml-1">
                         Iniciar sesión
                     </a>
                 </div>

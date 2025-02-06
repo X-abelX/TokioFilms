@@ -10,7 +10,7 @@
     <link rel="icon" href="{% static 'AppFilms/TokioFilms.ico' %}" type="image/x-icon">
     <style>
         .bg-tokio-films {
-            background-image: url('/static/AppFilms/fondoPeliculas.jpg');
+            background-image: url('{% static "AppFilms/fondoPeliculas.jpg" %}');
             background-size: cover;
             background-position: center;
         }
@@ -19,7 +19,6 @@
 
 <body>
     <div class="flex items-center justify-center min-h-screen bg-tokio-films">
-
         <!-- Filtro oscuro -->
         <div class="absolute inset-0 bg-black opacity-70 z-0"></div>
 
@@ -35,15 +34,23 @@
         <div class="relative z-10 w-full max-w-md p-8 mx-4 bg-black/65 rounded-lg mt-10 sm:mt-0">
             <h2 class="text-white text-3xl font-bold mb-8">Iniciar sesión</h2>
 
-            <form class="space-y-4">
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="text-red-500 text-sm">
+                    <p>Usuario o contraseña incorrectos.</p>
+                </div>
+                {% endif %}
+
                 <div>
-                    <input type="email" placeholder="Email"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                    <input type="text" name="username" placeholder="Email o Usuario"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" required />
                 </div>
 
                 <div>
-                    <input type="password" placeholder="Contraseña"
-                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" />
+                    <input type="password" name="password" placeholder="Contraseña"
+                        class="w-full p-4 rounded bg-zinc-800 text-white placeholder-gray-400 border border-zinc-700 focus:outline-none focus:border-gray-500" required />
                 </div>
 
                 <button type="submit"
@@ -61,7 +68,7 @@
 
                 <div class="mt-16 text-gray-400 text-base">
                     ¿Primera vez en TokioFilms?
-                    <a href="/register" class="text-white hover:underline ml-1">
+                    <a href="{% url 'register' %}" class="text-white hover:underline ml-1">
                         Crea una cuenta
                     </a>
                 </div>

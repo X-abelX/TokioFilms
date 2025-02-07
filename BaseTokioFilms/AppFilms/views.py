@@ -13,6 +13,8 @@ def home(request):
     return render(request, 'AppFilms/home.html')
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -24,6 +26,8 @@ def login(request):
     return render(request, 'AppFilms/login.html', {'form': form})
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():

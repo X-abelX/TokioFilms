@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TokioFilms</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    {% load static %}
+    <link
+      rel="icon"
+      href="{% static 'AppFilms/TokioFilms.ico' %}"
+      type="image/x-icon"
+    />
+  </head>
+  <body class="bg-[#141414] dark">
+    <nav class="bg-[#141414]">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <!-- Mobile menu button-->
+            <button
+              type="button"
+              class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span class="absolute -inset-0.5"></span>
+              <span class="sr-only">Open main menu</span>
+              <svg
+                class="block size-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                data-slot="icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+              <svg
+                class="hidden size-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                data-slot="icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+          >
+            <div class="flex shrink-0 items-center">
+              <h1
+                class="text-red-600 text-2xl font-bold tracking-wide [text-shadow:0_0_10px_rgba(0,0,0,0.8)]"
+                style="transform: skewX(-10deg)"
+              >
+                TokioFilms
+              </h1>
+              <span class="text-white text-sm font-bold"> (admin) </span>
+            </div>
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4">
+                <a
+                  href="#"
+                  class="rounded-md px-3 py-2 text-sm font-medium text-white"
+                  aria-current="page"
+                  >Home</a
+                >
+                <a
+                  href="#"
+                  class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
+                  >Peliculas</a
+                >
+                <a
+                  href="#"
+                  class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
+                  >Series</a
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+          >
+            <div class="relative ml-3">
+              <div>
+                <button
+                  type="button"
+                  class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  id="user-menu-button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  <span class="absolute -inset-1.5"></span>
+                  <span class="sr-only">Open user menu</span>
+                  <img
+                    class="size-8 rounded-full"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div
+                id="user-menu"
+                class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5"
+              >
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-700"
+                  role="menuitem"
+                  >Your Profile</a
+                >
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-700"
+                  role="menuitem"
+                  >Settings</a
+                >
+                {% if request.user.is_superuser %}
+                <a
+                  href="/home/"
+                  class="block px-4 py-2 text-sm text-gray-700"
+                  role="menuitem"
+                  >Ir a plataforma</a
+                >
+                {% endif %}
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button
+                    type="submit"
+                    role="menuitem"
+                    class="block px-4 py-2 text-sm text-gray-700"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu, show/hide based on menu state. -->
+      <div class="sm:hidden hidden" id="mobile-menu">
+        <div class="space-y-1 px-2 pt-2 pb-3">
+          <a
+            href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-white"
+            aria-current="page"
+            >Home</a
+          >
+          <a
+            href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
+            >Peliculas</a
+          >
+          <a
+            href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
+            >Series</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="w-full min-h-screen p-8">
+      <div class="grid sm:grid-cols-2 sm:gap-4 w-full rounded-md bg-[#343434]">
+        <div class="pb-0 p-4 sm:pb-4">
+          <label for="title" class="font-medium text-white">Título</label>
+          <input
+            id="title"
+            type="text"
+            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+            placeholder="Título"
+          />
+
+          <label for="description" class="font-medium text-white"
+            >Descripción</label
+          >
+          <textarea
+            id="description"
+            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg resize-none overflow-hidden line-clamp-3"
+            rows="3"
+            maxlength="200"
+            placeholder="Escribe la descripción de la película"
+          ></textarea>
+
+          <label for="age" class="font-medium text-white">Edad permitida</label>
+          <div class="flex space-x-2 md:space-x-3 mb-4 mt-2">
+            <!-- Botón A (Verde) -->
+            <label>
+              <input type="radio" name="age" class="hidden peer" />
+              <div
+                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#1DB954]"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-[#1ED760] to-[#1DB954] group-hover:opacity-90 transition-opacity"
+                ></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-sm font-bold text-white drop-shadow-lg"
+                    >A</span
+                  >
+                </div>
+              </div>
+            </label>
+
+            <!-- Botón 7 (Azul) -->
+            <label>
+              <input type="radio" name="age" class="hidden peer" />
+              <div
+                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#33C3F0]"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-[#00A8E1] to-[#33C3F0] group-hover:opacity-90 transition-opacity"
+                ></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-sm font-bold text-white drop-shadow-lg"
+                    >7</span
+                  >
+                </div>
+              </div>
+            </label>
+
+            <!-- Botón 12 (Amarillo) -->
+            <label>
+              <input type="radio" name="age" class="hidden peer" />
+              <div
+                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#F5C518]"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-[#FFD700] to-[#F5C518] group-hover:opacity-90 transition-opacity"
+                ></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-sm font-bold text-white drop-shadow-lg"
+                    >12</span
+                  >
+                </div>
+              </div>
+            </label>
+
+            <!-- Botón 16 (Naranja) -->
+            <label>
+              <input type="radio" name="age" class="hidden peer" />
+              <div
+                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#FF8000]"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-[#FF9500] to-[#FF8000] group-hover:opacity-90 transition-opacity"
+                ></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-sm font-bold text-white drop-shadow-lg"
+                    >16</span
+                  >
+                </div>
+              </div>
+            </label>
+
+            <!-- Botón 18 (Rojo) -->
+            <label>
+              <input type="radio" name="age" class="hidden peer" />
+              <div
+                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#E50914]"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-[#FF0000] to-[#E50914] group-hover:opacity-90 transition-opacity"
+                ></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-sm font-bold text-white drop-shadow-lg"
+                    >18</span
+                  >
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <label for="duration" class="font-medium text-white">Duración</label>
+          <input
+            id="duration"
+            type="number"
+            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+            placeholder="Duración (minutos)"
+          />
+
+          <label for="datepicker" class="font-medium text-white"
+            >Fecha de lanzamiento</label
+          >
+          <div class="relative w-full">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                />
+              </svg>
+            </div>
+            <input
+              id="datepicker"
+              type="text"
+              class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg block ps-10"
+              placeholder="dd/mm/yyyy"
+              maxlength="10"
+            />
+          </div>
+        </div>
+        <div class="pt-0 p-4 sm:pt-4">
+          <label for="dropzone-file" class="font-medium text-white"
+            >Imagen de portada</label
+          >
+          <div class="flex items-center justify-center w-full mb-4">
+            <label
+              for="dropzone-file"
+              class="relative w-full max-w-3xl sm:h-64 aspect-video border-2 border-gray-500 border-dashed rounded-lg cursor-pointer bg-[#141414] hover:bg-[#212121] overflow-hidden flex items-center justify-center"
+            >
+              <img
+                id="image-preview"
+                class="hidden absolute inset-0 w-full h-full object-cover rounded-lg"
+              />
+              <div
+                id="upload-container"
+                class="flex flex-col items-center justify-center absolute inset-0"
+              >
+                <svg
+                  id="upload-icon"
+                  class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span class="font-semibold">Click to upload</span> or drag and
+                  drop
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  SVG, PNG, JPG or GIF
+                </p>
+              </div>
+              <input
+                id="dropzone-file"
+                type="file"
+                class="hidden"
+                accept="image/*"
+                onchange="previewImage(event)"
+              />
+            </label>
+          </div>
+
+          <label for="countries" class="font-medium text-white"
+            >Calidad de video</label
+          >
+          <select
+            id="countries"
+            class="bg-[#141414] mb-4 text-white text-sm rounded-lg focus:ring-white focus:border-blue-500 block w-full p-2.5"
+          >
+            <option value="US">HD</option>
+            <option value="CA">Full HD</option>
+            <option value="FR">Ultra HD</option>
+            <option value="DE">HDR</option>
+          </select>
+
+          <label for="cast" class="font-medium text-white">Reparto</label>
+          <input
+            id="cast"
+            type="text"
+            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+            placeholder="Reparto"
+          />
+        </div>
+      </div>
+      <div class="p-8 bg-[#343434] rounded-md mt-4">
+        <div class="flex sm:flex-row flex-col items-center justify-center mb-4">
+          <label for="category" class="font-medium text-white sm:mr-4 sm:self-center self-start"
+            >Categoria:</label
+          >
+          <select
+            id="category"
+            class="bg-[#141414] sm:mr-2 sm:mb-0 mb-2 text-white text-sm rounded-lg focus:ring-white focus:border-blue-500 block w-full p-2.5"
+          >
+            <option value="US">Comedia</option>
+            <option value="CA">Full HD</option>
+            <option value="FR">Ultra HD</option>
+            <option value="DE">HDR</option>
+          </select>
+
+          <button
+            class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-gray-700 hover:text-gray-900"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+              />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span>Categorias</span>
+          </button>
+        </div>
+        <button
+          class="w-full py-2 bg-[#1DB954] text-white font-medium rounded-lg"
+        >
+          Añadir película
+        </button>
+      </div>
+    </div>
+
+    <style>
+      .aspect-video {
+        aspect-ratio: 16 / 9;
+      }
+      @media (max-width: 768px) {
+        .max-w-3xl {
+          max-width: 100%;
+        }
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuButton = document.querySelector(
+          '[aria-controls="mobile-menu"]'
+        );
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        // Asegurarse de que el menú móvil está oculto al principio
+        mobileMenu.classList.add("hidden");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden"); // Alterna la visibilidad del menú
+          });
+        }
+
+        const userMenuButton = document.getElementById("user-menu-button");
+        const userMenu = document.getElementById("user-menu");
+
+        if (userMenuButton && userMenu) {
+          userMenuButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            userMenu.classList.toggle("hidden");
+          });
+
+          document.addEventListener("click", function (event) {
+            if (
+              !userMenu.contains(event.target) &&
+              !userMenuButton.contains(event.target)
+            ) {
+              userMenu.classList.add("hidden");
+            }
+          });
+        }
+      });
+    </script>
+    <script>
+      const input = document.getElementById("datepicker");
+
+      input.addEventListener("input", (e) => {
+        let value = e.target.value.replace(/\D/g, ""); // Elimina caracteres no numéricos
+        const day = value.slice(0, 2); // Primeros 2 dígitos son el día
+        const month = value.slice(2, 4); // Siguientes 2 dígitos son el mes
+        const year = value.slice(4, 8); // Resto son el año
+
+        // Construye el valor formateado
+        let formattedValue = day;
+        if (month) formattedValue += "/" + month;
+        if (year) formattedValue += "/" + year;
+
+        e.target.value = formattedValue; // Actualiza el valor del input
+      });
+
+      input.addEventListener("blur", () => {
+        const value = input.value;
+        const parts = value.split("/");
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10);
+        const year = parseInt(parts[2], 10);
+
+        // Validar día, mes y año
+        if (
+          parts.length === 3 &&
+          day >= 1 &&
+          day <= 31 &&
+          month >= 1 &&
+          month <= 12 &&
+          year >= 1000 &&
+          year <= 9999
+        ) {
+          input.setCustomValidity("");
+        } else {
+          input.setCustomValidity(
+            "Por favor, ingresa una fecha válida en formato dd/mm/yyyy"
+          );
+        }
+      });
+    </script>
+    <script>
+      function previewImage(event) {
+        const input = event.target;
+        const file = input.files[0];
+        const preview = document.getElementById("image-preview");
+        const icon = document.getElementById("upload-icon");
+
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.remove("hidden");
+            icon.classList.add("hidden");
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+  </body>
+</html>

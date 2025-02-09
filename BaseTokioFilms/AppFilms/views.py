@@ -12,6 +12,12 @@ def index(request):
 def home(request):
     return render(request, 'AppFilms/home.html')
 
+@login_required
+def dashboard(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    return render(request, 'AppFilms/dashboard.html')
+
 def login(request):
     if request.user.is_authenticated:
         return redirect('home')

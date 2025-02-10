@@ -1,0 +1,12 @@
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+@media (max-width: 768px) {
+  .max-w-3xl {
+    max-width: 100%;
+  }
+}
+.drag-space {
+  transition: transform 0.3s ease;
+  transform: translateY(10px); /* Eleva el elemento donde se va a soltar */
+}

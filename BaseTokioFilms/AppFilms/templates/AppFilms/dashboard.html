@@ -11,6 +11,7 @@
       href="{% static 'AppFilms/TokioFilms.ico' %}"
       type="image/x-icon"
     />
+    <link rel="stylesheet" href="{% static 'AppFilms/css/styles.css' %}">
   </head>
   <body class="bg-[#141414] dark">
     <nav class="bg-[#141414]">
@@ -659,23 +660,6 @@
         </div>
       </div>
     </div>
-
-    <style>
-      .aspect-video {
-        aspect-ratio: 16 / 9;
-      }
-      @media (max-width: 768px) {
-        .max-w-3xl {
-          max-width: 100%;
-        }
-      }
-      .drag-space {
-        transition: transform 0.3s ease;
-        transform: translateY(
-          10px
-        ); /* Eleva el elemento donde se va a soltar */
-      }
-    </style>
     <script src="{% static 'AppFilms/js/navbar.js' %}"></script>
     <script src="{% static 'AppFilms/js/datepicker.js' %}"></script>
     <script src="{% static 'AppFilms/js/controllerImage.js' %}"></script>

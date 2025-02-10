@@ -9,4 +9,9 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('logout/', LogoutView.as_view(next_page='index'), name='logout'),
+    path('prueba/', views.prueba, name='prueba'),
+    path('update-order/', views.update_order, name='update_order'),
+    path('add-category/', views.add_category, name='add_category'),
+    path('delete-category/<int:category_id>/', views.delete_category, name='delete_category'),
+    path('update-category-name/<int:category_id>/', views.update_category_name, name='update_category_name'),
 ]

@@ -14,7 +14,7 @@
   </head>
   <body class="bg-[#141414] dark">
     <nav class="bg-[#141414]">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="mx-auto w-full px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <!-- Mobile menu button-->
@@ -175,7 +175,7 @@
       </div>
     </nav>
 
-    <div class="w-full min-h-screen p-8">
+    <div class="max-w-5xl mx-auto min-h-screen p-8">
       <div class="grid sm:grid-cols-2 sm:gap-4 w-full rounded-md bg-[#343434]">
         <div class="pb-0 p-4 sm:pb-4">
           <label for="title" class="font-medium text-white">Título</label>
@@ -396,7 +396,9 @@
       </div>
       <div class="p-8 bg-[#343434] rounded-md mt-4">
         <div class="flex sm:flex-row flex-col items-center justify-center mb-4">
-          <label for="category" class="font-medium text-white sm:mr-4 sm:self-center self-start"
+          <label
+            for="category"
+            class="font-medium text-white sm:mr-4 sm:self-center self-start"
             >Categoria:</label
           >
           <select
@@ -410,6 +412,8 @@
           </select>
 
           <button
+            id="open-modal"
+            type="button"
             class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-gray-700 hover:text-gray-900"
           >
             <svg
@@ -438,6 +442,223 @@
         </button>
       </div>
     </div>
+    <!-- Main modal -->
+    <div
+      id="default-modal"
+      tabindex="-1"
+      inert
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-[#444444] rounded-lg shadow-sm">
+          <!-- Modal header -->
+          <div
+            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200"
+          >
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Categorias
+            </h3>
+            <button
+              type="button"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="default-modal"
+            >
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="p-4 md:p-5 space-y-4">
+            <div class="">
+              <div
+                class="max-w-md mx-auto space-y-2 max-h-100 overflow-y-auto"
+                id="list"
+              >
+                {% for category in categories %}
+                <div
+                  class="bg-[#141414] rounded shadow-sm"
+                  draggable="true"
+                  data-id="{{ category.id }}"
+                >
+                  <div class="flex items-center p-3 gap-2">
+                    <button
+                      onclick="toggleEdit(this)"
+                      class="text-white hover:text-gray-300"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"
+                        />
+                      </svg>
+                    </button>
+                    <div class="flex-1" data-id="{{ category.id }}">
+                      <span class="block text-white">{{ category.name }}</span>
+                      <div class="hidden edit-mode flex">
+                        <input
+                          type="text"
+                          value="{{ category.name }}"
+                          class="w-full bg-black text-white px-3 py-1 mr-2 rounded"
+                          data-id="{{ category.id }}"
+                        />
+                        <button
+                          class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      class="p-2 bg-red-500 hover:bg-red-600 rounded-lg open-delete-modal"
+                      data-id="{{ category.id }}"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="white"
+                        class="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 6h18M8 6v12m8-12v12M5 6l1 14a2 2 0 002 2h8a2 2 0 002-2l1-14M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                {% empty %}
+                <p>No hay categorías disponibles</p>
+                {% endfor %}
+              </div>
+              <div
+                class="max-w-md mx-auto flex items-center justify-center mt-2"
+              >
+                <input
+                  id="new-category-name"
+                  type="text"
+                  class="w-full mr-2 p-2 bg-[#141414] rounded-lg text-white"
+                  placeholder="Nombre"
+                />
+                <button
+                  id="add-category-button"
+                  class="flex items-center bg-green-500 hover:bg-green-600 text-white p-2 rounded-md"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 5v14m7-7H5"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de eliminación -->
+    <div
+      id="modal2"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden"
+    >
+      <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-lg font-semibold">Eliminar categoria</h3>
+          <button
+            id="closeModal2"
+            class="text-gray-400 hover:text-gray-600 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="mt-4">
+          <p class="text-sm text-gray-700">
+            ¿Confirma que quiere eliminar permanentemente
+            <span class="font-bold">1 categoria</span>? Escriba "ELIMINAR" para
+            confirmar.
+          </p>
+          <input
+            type="text"
+            class="mt-2 w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            placeholder="ELIMINAR"
+          />
+        </div>
+        <div class="mt-6 flex justify-end space-x-4">
+          <button
+            id="cancelModal2"
+            class="px-4 py-2 text-blue-500 border border-blue-500 rounded-lg hover:bg-blue-100 focus:outline-none"
+          >
+            Cancelar
+          </button>
+          <button
+            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none confirm-delete"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
 
     <style>
       .aspect-video {
@@ -448,103 +669,25 @@
           max-width: 100%;
         }
       }
-    </style>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const mobileMenuButton = document.querySelector(
-          '[aria-controls="mobile-menu"]'
-        );
-        const mobileMenu = document.getElementById("mobile-menu");
-
-        // Asegurarse de que el menú móvil está oculto al principio
-        mobileMenu.classList.add("hidden");
-
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener("click", function () {
-            mobileMenu.classList.toggle("hidden"); // Alterna la visibilidad del menú
-          });
-        }
-
-        const userMenuButton = document.getElementById("user-menu-button");
-        const userMenu = document.getElementById("user-menu");
-
-        if (userMenuButton && userMenu) {
-          userMenuButton.addEventListener("click", function (event) {
-            event.stopPropagation();
-            userMenu.classList.toggle("hidden");
-          });
-
-          document.addEventListener("click", function (event) {
-            if (
-              !userMenu.contains(event.target) &&
-              !userMenuButton.contains(event.target)
-            ) {
-              userMenu.classList.add("hidden");
-            }
-          });
-        }
-      });
-    </script>
-    <script>
-      const input = document.getElementById("datepicker");
-
-      input.addEventListener("input", (e) => {
-        let value = e.target.value.replace(/\D/g, ""); // Elimina caracteres no numéricos
-        const day = value.slice(0, 2); // Primeros 2 dígitos son el día
-        const month = value.slice(2, 4); // Siguientes 2 dígitos son el mes
-        const year = value.slice(4, 8); // Resto son el año
-
-        // Construye el valor formateado
-        let formattedValue = day;
-        if (month) formattedValue += "/" + month;
-        if (year) formattedValue += "/" + year;
-
-        e.target.value = formattedValue; // Actualiza el valor del input
-      });
-
-      input.addEventListener("blur", () => {
-        const value = input.value;
-        const parts = value.split("/");
-        const day = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10);
-        const year = parseInt(parts[2], 10);
-
-        // Validar día, mes y año
-        if (
-          parts.length === 3 &&
-          day >= 1 &&
-          day <= 31 &&
-          month >= 1 &&
-          month <= 12 &&
-          year >= 1000 &&
-          year <= 9999
-        ) {
-          input.setCustomValidity("");
-        } else {
-          input.setCustomValidity(
-            "Por favor, ingresa una fecha válida en formato dd/mm/yyyy"
-          );
-        }
-      });
-    </script>
-    <script>
-      function previewImage(event) {
-        const input = event.target;
-        const file = input.files[0];
-        const preview = document.getElementById("image-preview");
-        const icon = document.getElementById("upload-icon");
-
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            preview.src = e.target.result;
-            preview.classList.remove("hidden");
-            icon.classList.add("hidden");
-          };
-          reader.readAsDataURL(file);
-        }
+      .drag-space {
+        transition: transform 0.3s ease;
+        transform: translateY(
+          10px
+        ); /* Eleva el elemento donde se va a soltar */
       }
+    </style>
+    <script src="{% static 'AppFilms/js/navbar.js' %}"></script>
+    <script src="{% static 'AppFilms/js/datepicker.js' %}"></script>
+    <script src="{% static 'AppFilms/js/controllerImage.js' %}"></script>
+    <script src="{% static 'AppFilms/js/controllerModal.js' %}"></script>
+    <script>
+      const urls = {
+        updateOrder: "{% url 'update_order' %}",
+        updateCategoryName: "{% url 'update_category_name' 0 %}".slice(0, -2), // Eliminar el '0/' al final
+        deleteCategory: "{% url 'delete_category' 0 %}".slice(0, -2), // Eliminar el '0/' al final
+        addCategory: "{% url 'add_category' %}"
+      };
     </script>
+    <script src="{% static 'AppFilms/js/categoryList.js' %}"></script>
   </body>
 </html>

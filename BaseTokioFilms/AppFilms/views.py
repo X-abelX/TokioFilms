@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
+from datetime import datetime
 
 # Create your views here.
 def index(request):
@@ -113,3 +114,47 @@ def update_category_name(request, category_id):
         except categoryFilms.DoesNotExist:
             return JsonResponse({"status": "failed", "message": "Category not found"}, status=404)
     return JsonResponse({"status": "failed"}, status=400)
+
+@login_required
+def add_film(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        age = request.POST.get("age")
+        duration = request.POST.get("duration")
+        releaseDate = request.POST.get("releaseDate")
+        image = request.FILES.get("image")
+        videoQuality = request.POST.get("videoQuality")
+        cast = request.POST.get("cast")
+        category_id = request.POST.get("category")
+
+        if category_id == "null":
+            return redirect("dashboard")
+
+        category = categoryFilms.objects.get(id=category_id)
+
+        # Convertir la fecha al formato YYYY-MM-DD
+        try:
+            releaseDate = datetime.strptime(releaseDate, "%d/%m/%Y").strftime("%Y-%m-%d")
+        except ValueError:
+            return redirect("dashboard")
+
+        new_film = film(
+            title=title,
+            description=description,
+            age=age,
+            duration=duration,
+            releaseDate=releaseDate,
+            image=image,
+            videoQuality=videoQuality,
+            cast=cast,
+            categoryFilms=category,
+        )
+        new_film.save()
+        return redirect("dashboard")
+
+    return redirect("dashboard")
+
+def lista_items(request):
+    categories = categoryFilms.objects.all().order_by('position') # Obtener los datos actualizados
+    return render(request, 'AppFilms/list.html', {'categories': categories})

@@ -177,271 +177,270 @@
     </nav>
 
     <div class="max-w-5xl mx-auto min-h-screen p-8">
-      <div class="grid sm:grid-cols-2 sm:gap-4 w-full rounded-md bg-[#343434]">
-        <div class="pb-0 p-4 sm:pb-4">
-          <label for="title" class="font-medium text-white">Título</label>
-          <input
-            id="title"
-            type="text"
-            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
-            placeholder="Título"
-          />
+      <!-- Formulario para añadir película -->
+<form id="add-film-form" method="POST" enctype="multipart/form-data" action="{% url 'add_film' %}">
+  {% csrf_token %}
+  <div class="grid sm:grid-cols-2 sm:gap-4 w-full rounded-md bg-[#343434]">
+    <div class="pb-0 p-4 sm:pb-4">
+      <label for="title" class="font-medium text-white">Título</label>
+      <input
+        id="title"
+        name="title"
+        type="text"
+        class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+        placeholder="Título"
+        required
+      />
 
-          <label for="description" class="font-medium text-white"
-            >Descripción</label
+      <label for="description" class="font-medium text-white">Descripción</label>
+      <textarea
+        id="description"
+        name="description"
+        class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg resize-none overflow-hidden line-clamp-3"
+        rows="3"
+        maxlength="200"
+        placeholder="Escribe la descripción de la película"
+        required
+      ></textarea>
+
+      <label for="age" class="font-medium text-white">Edad permitida</label>
+      <div class="flex space-x-2 md:space-x-3 mb-4 mt-2">
+        <!-- Botón A (Verde) -->
+        <label>
+          <input type="radio" name="age" value="A" class="hidden peer" required />
+          <div
+            class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#1DB954]"
           >
-          <textarea
-            id="description"
-            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg resize-none overflow-hidden line-clamp-3"
-            rows="3"
-            maxlength="200"
-            placeholder="Escribe la descripción de la película"
-          ></textarea>
-
-          <label for="age" class="font-medium text-white">Edad permitida</label>
-          <div class="flex space-x-2 md:space-x-3 mb-4 mt-2">
-            <!-- Botón A (Verde) -->
-            <label>
-              <input type="radio" name="age" class="hidden peer" />
-              <div
-                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#1DB954]"
-              >
-                <div
-                  class="absolute inset-0 bg-gradient-to-br from-[#1ED760] to-[#1DB954] group-hover:opacity-90 transition-opacity"
-                ></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-sm font-bold text-white drop-shadow-lg"
-                    >A</span
-                  >
-                </div>
-              </div>
-            </label>
-
-            <!-- Botón 7 (Azul) -->
-            <label>
-              <input type="radio" name="age" class="hidden peer" />
-              <div
-                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#33C3F0]"
-              >
-                <div
-                  class="absolute inset-0 bg-gradient-to-br from-[#00A8E1] to-[#33C3F0] group-hover:opacity-90 transition-opacity"
-                ></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-sm font-bold text-white drop-shadow-lg"
-                    >7</span
-                  >
-                </div>
-              </div>
-            </label>
-
-            <!-- Botón 12 (Amarillo) -->
-            <label>
-              <input type="radio" name="age" class="hidden peer" />
-              <div
-                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#F5C518]"
-              >
-                <div
-                  class="absolute inset-0 bg-gradient-to-br from-[#FFD700] to-[#F5C518] group-hover:opacity-90 transition-opacity"
-                ></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-sm font-bold text-white drop-shadow-lg"
-                    >12</span
-                  >
-                </div>
-              </div>
-            </label>
-
-            <!-- Botón 16 (Naranja) -->
-            <label>
-              <input type="radio" name="age" class="hidden peer" />
-              <div
-                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#FF8000]"
-              >
-                <div
-                  class="absolute inset-0 bg-gradient-to-br from-[#FF9500] to-[#FF8000] group-hover:opacity-90 transition-opacity"
-                ></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-sm font-bold text-white drop-shadow-lg"
-                    >16</span
-                  >
-                </div>
-              </div>
-            </label>
-
-            <!-- Botón 18 (Rojo) -->
-            <label>
-              <input type="radio" name="age" class="hidden peer" />
-              <div
-                class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#E50914]"
-              >
-                <div
-                  class="absolute inset-0 bg-gradient-to-br from-[#FF0000] to-[#E50914] group-hover:opacity-90 transition-opacity"
-                ></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-sm font-bold text-white drop-shadow-lg"
-                    >18</span
-                  >
-                </div>
-              </div>
-            </label>
-          </div>
-
-          <label for="duration" class="font-medium text-white">Duración</label>
-          <input
-            id="duration"
-            type="number"
-            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
-            placeholder="Duración (minutos)"
-          />
-
-          <label for="datepicker" class="font-medium text-white"
-            >Fecha de lanzamiento</label
-          >
-          <div class="relative w-full">
             <div
-              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-            >
-              <svg
-                class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
-                />
-              </svg>
+              class="absolute inset-0 bg-gradient-to-br from-[#1ED760] to-[#1DB954] group-hover:opacity-90 transition-opacity"
+            ></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-sm font-bold text-white drop-shadow-lg">A</span>
             </div>
-            <input
-              id="datepicker"
-              type="text"
-              class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg block ps-10"
-              placeholder="dd/mm/yyyy"
-              maxlength="10"
-            />
           </div>
-        </div>
-        <div class="pt-0 p-4 sm:pt-4">
-          <label for="dropzone-file" class="font-medium text-white"
-            >Imagen de portada</label
+        </label>
+
+        <!-- Botón 7 (Azul) -->
+        <label>
+          <input type="radio" name="age" value="7" class="hidden peer" required />
+          <div
+            class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#33C3F0]"
           >
-          <div class="flex items-center justify-center w-full mb-4">
-            <label
-              for="dropzone-file"
-              class="relative w-full max-w-3xl sm:h-64 aspect-video border-2 border-gray-500 border-dashed rounded-lg cursor-pointer bg-[#141414] hover:bg-[#212121] overflow-hidden flex items-center justify-center"
-            >
-              <img
-                id="image-preview"
-                class="hidden absolute inset-0 w-full h-full object-cover rounded-lg"
-              />
-              <div
-                id="upload-container"
-                class="flex flex-col items-center justify-center absolute inset-0"
-              >
-                <svg
-                  id="upload-icon"
-                  class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                  />
-                </svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span class="font-semibold">Click to upload</span> or drag and
-                  drop
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF
-                </p>
-              </div>
-              <input
-                id="dropzone-file"
-                type="file"
-                class="hidden"
-                accept="image/*"
-                onchange="previewImage(event)"
-              />
-            </label>
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-[#00A8E1] to-[#33C3F0] group-hover:opacity-90 transition-opacity"
+            ></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-sm font-bold text-white drop-shadow-lg">7</span>
+            </div>
           </div>
+        </label>
 
-          <label for="countries" class="font-medium text-white"
-            >Calidad de video</label
+        <!-- Botón 12 (Amarillo) -->
+        <label>
+          <input type="radio" name="age" value="12" class="hidden peer" required />
+          <div
+            class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#F5C518]"
           >
-          <select
-            id="countries"
-            class="bg-[#141414] mb-4 text-white text-sm rounded-lg focus:ring-white focus:border-blue-500 block w-full p-2.5"
-          >
-            <option value="US">HD</option>
-            <option value="CA">Full HD</option>
-            <option value="FR">Ultra HD</option>
-            <option value="DE">HDR</option>
-          </select>
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-[#FFD700] to-[#F5C518] group-hover:opacity-90 transition-opacity"
+            ></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-sm font-bold text-white drop-shadow-lg">12</span>
+            </div>
+          </div>
+        </label>
 
-          <label for="cast" class="font-medium text-white">Reparto</label>
-          <input
-            id="cast"
-            type="text"
-            class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
-            placeholder="Reparto"
-          />
-        </div>
+        <!-- Botón 16 (Naranja) -->
+        <label>
+          <input type="radio" name="age" value="16" class="hidden peer" required />
+          <div
+            class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#FF8000]"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-[#FF9500] to-[#FF8000] group-hover:opacity-90 transition-opacity"
+            ></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-sm font-bold text-white drop-shadow-lg">16</span>
+            </div>
+          </div>
+        </label>
+
+        <!-- Botón 18 (Rojo) -->
+        <label>
+          <input type="radio" name="age" value="18" class="hidden peer" required />
+          <div
+            class="relative group w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-105 peer-checked:outline peer-checked:outline-3 peer-checked:outline-offset-2 peer-checked:outline-[#E50914]"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-[#FF0000] to-[#E50914] group-hover:opacity-90 transition-opacity"
+            ></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-sm font-bold text-white drop-shadow-lg">18</span>
+            </div>
+          </div>
+        </label>
       </div>
-      <div class="p-8 bg-[#343434] rounded-md mt-4">
-        <div class="flex sm:flex-row flex-col items-center justify-center mb-4">
-          <label
-            for="category"
-            class="font-medium text-white sm:mr-4 sm:self-center self-start"
-            >Categoria:</label
-          >
-          <select
-            id="category"
-            class="bg-[#141414] sm:mr-2 sm:mb-0 mb-2 text-white text-sm rounded-lg focus:ring-white focus:border-blue-500 block w-full p-2.5"
-          >
-            <option value="US">Comedia</option>
-            <option value="CA">Full HD</option>
-            <option value="FR">Ultra HD</option>
-            <option value="DE">HDR</option>
-          </select>
 
-          <button
-            id="open-modal"
-            type="button"
-            class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-gray-700 hover:text-gray-900"
+      <label for="duration" class="font-medium text-white">Duración</label>
+      <input
+        id="duration"
+        name="duration"
+        type="number"
+        class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+        placeholder="Duración (minutos)"
+        required
+      />
+
+      <label for="datepicker" class="font-medium text-white">Fecha de lanzamiento</label>
+      <div class="relative w-full">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+            />
+          </svg>
+        </div>
+        <input
+          id="datepicker"
+          name="releaseDate"
+          type="text"
+          class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg block ps-10"
+          placeholder="dd/mm/yyyy"
+          maxlength="10"
+          required
+        />
+      </div>
+    </div>
+    <div class="pt-0 p-4 sm:pt-4">
+      <label for="dropzone-file" class="font-medium text-white">Imagen de portada</label>
+      <div class="flex items-center justify-center w-full mb-4">
+        <label
+          for="dropzone-file"
+          class="relative w-full max-w-3xl sm:h-64 aspect-video border-2 border-gray-500 border-dashed rounded-lg cursor-pointer bg-[#141414] hover:bg-[#212121] overflow-hidden flex items-center justify-center"
+        >
+          <img
+            id="image-preview"
+            class="hidden absolute inset-0 w-full h-full object-cover rounded-lg"
+          />
+          <div
+            id="upload-container"
+            class="flex flex-col items-center justify-center absolute inset-0"
           >
             <svg
+              id="upload-icon"
+              class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
               fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              viewBox="0 0 20 16"
             >
               <path
-                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
               />
-              <circle cx="12" cy="12" r="3" />
             </svg>
-            <span>Categorias</span>
-          </button>
-        </div>
-        <button
-          class="w-full py-2 bg-[#1DB954] text-white font-medium rounded-lg"
-        >
-          Añadir película
-        </button>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+              <span class="font-semibold">Click to upload</span> or drag and drop
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              SVG, PNG, JPG or GIF
+            </p>
+          </div>
+          <input
+            id="dropzone-file"
+            name="image"
+            type="file"
+            class="hidden"
+            accept="image/*"
+            onchange="previewImage(event)"
+            required
+          />
+        </label>
       </div>
+
+      <label for="videoQuality" class="font-medium text-white">Calidad de video</label>
+      <select
+        id="videoQuality"
+        name="videoQuality"
+        class="bg-[#141414] mb-4 text-white text-sm rounded-lg focus:ring-white focus:border-blue-500 block w-full p-2.5"
+        required
+      >
+        <option value="HD">HD</option>
+        <option value="Full HD">Full HD</option>
+        <option value="Ultra HD">Ultra HD</option>
+        <option value="HDR">HDR</option>
+      </select>
+
+      <label for="cast" class="font-medium text-white">Reparto</label>
+      <input
+        id="cast"
+        name="cast"
+        type="text"
+        class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+        placeholder="Reparto"
+        required
+      />
+    </div>
+  </div>
+  <div class="p-8 bg-[#343434] rounded-md mt-4">
+    <div class="flex sm:flex-row flex-col items-center justify-center mb-4">
+      <label
+        for="category"
+        class="font-medium text-white sm:mr-4 sm:self-center self-start"
+        >Categoria:</label
+      >
+      <select
+        id="category"
+        name="category"
+        class="bg-[#141414] sm:mr-2 sm:mb-0 mb-2 text-white text-sm rounded-lg focus:ring-white focus:border-blue-500 block w-full p-2.5"
+        required
+      >
+        {% include 'AppFilms/list.html' %}
+      </select>
+
+      <button
+        id="open-modal"
+        type="button"
+        class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-gray-700 hover:text-gray-900"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+          />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+        <span>Categorias</span>
+      </button>
+    </div>
+    <button
+      type="submit"
+      class="w-full py-2 bg-[#1DB954] text-white font-medium rounded-lg"
+    >
+      Añadir película
+    </button>
+  </div>
+</form>
     </div>
     <!-- Main modal -->
     <div

@@ -12,7 +12,7 @@ class categoryFilms(models.Model):
     
 class film(models.Model):
     categoryFilms = models.ForeignKey(categoryFilms, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to='portadas/')
     age_choices = [
@@ -32,7 +32,7 @@ class film(models.Model):
         ('HDR', 'HDR'),
     ]
     videoQuality = models.CharField(max_length=10, choices=videoQuality)
-    director = models.CharField(max_length=100)
+    cast = models.CharField(max_length=100)
     
 
     def __str__(self):

@@ -19,14 +19,17 @@ def prueba(request):
 
 @login_required
 def home(request):
-    return render(request, 'AppFilms/home.html')
+    categories = categoryFilms.objects.all().order_by('position').prefetch_related('film_set')
+    films = film.objects.all()
+    return render(request, 'AppFilms/home.html', {'categories': categories, 'films': films})
 
 @login_required
 def dashboard(request):
     if not request.user.is_superuser:
         return redirect('home')
-    categories = categoryFilms.objects.all().order_by('position')
-    return render(request, 'AppFilms/dashboard.html', {'categories': categories})                                                                                                                                                                                       
+    categories = categoryFilms.objects.all().order_by('position').prefetch_related('film_set')
+    films = film.objects.all()
+    return render(request, 'AppFilms/dashboard.html', {'categories': categories, 'films': films})                                                                                                                                                                                       
 
 def login(request):
     if request.user.is_authenticated:
@@ -158,3 +161,4 @@ def add_film(request):
 def lista_items(request):
     categories = categoryFilms.objects.all().order_by('position') # Obtener los datos actualizados
     return render(request, 'AppFilms/list.html', {'categories': categories})
+

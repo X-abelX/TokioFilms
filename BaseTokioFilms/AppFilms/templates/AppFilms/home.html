@@ -13,7 +13,7 @@
     />
   </head>
   <body class="bg-[#141414] min-h-screen">
-    <nav class="bg-[#141414]">
+    <nav class="bg-[#141414] mb-10">
       <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -209,110 +209,7 @@
       </div>
     </nav>
 
-    <div class="container mx-auto px-4 py-8">
-      <h2 class="text-[#F1F0FB] text-2xl font-bold mb-4 px-4">
-        Recomendaciones
-      </h2>
-      <div class="relative carousel-container group">
-        <div class="carousel overflow-hidden">
-          <div
-            class="carousel-inner flex transition-transform duration-500 ease-out"
-          >
-            <!-- Películas -->
-            <div
-              class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105"
-            >
-              <div
-                class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg"
-              >
-                <img
-                  src="https://picsum.photos/seed/1/1280/720"
-                  alt="Movie 1"
-                  class="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div
-              class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105"
-            >
-              <div
-                class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg"
-              >
-                <img
-                  src="https://picsum.photos/seed/2/1280/720"
-                  alt="Movie 2"
-                  class="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div
-              class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105"
-            >
-              <div
-                class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg"
-              >
-                <img
-                  src="https://picsum.photos/seed/3/1280/720"
-                  alt="Movie 3"
-                  class="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div
-              class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105"
-            >
-              <div
-                class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg"
-              >
-                <img
-                  src="https://picsum.photos/seed/4/1280/720"
-                  alt="Movie 4"
-                  class="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div
-              class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105"
-            >
-              <div
-                class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg"
-              >
-                <img
-                  src="https://picsum.photos/seed/5/1280/720"
-                  alt="Movie 5"
-                  class="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div
-              class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105"
-            >
-              <div
-                class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg"
-              >
-                <img
-                  src="https://picsum.photos/seed/6/1280/720"
-                  alt="Movie 6"
-                  class="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Botones de navegación -->
-        <button
-          class="carousel-button prev absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-          ❮
-        </button>
-        <button
-          class="carousel-button next absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-          ❯
-        </button>
-      </div>
-    </div>
+    {% include 'AppFilms/list-categories.html' %}
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {

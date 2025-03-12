@@ -1,0 +1,267 @@
+<nav class="bg-[#141414] mb-10">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <!-- Mobile menu button-->
+          <button
+            type="button"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+          >
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <!--
+            Icon when menu is closed.
+
+            Menu open: "hidden", Menu closed: "block"
+          -->
+            <svg
+              class="block size-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+              data-slot="icon"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+            <!--
+            Icon when menu is open.
+
+            Menu open: "block", Menu closed: "hidden"
+          -->
+            <svg
+              class="hidden size-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+              data-slot="icon"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+        >
+          <div class="flex shrink-0 items-center">
+            <h1
+              class="text-red-600 text-2xl font-bold tracking-wide [text-shadow:0_0_10px_rgba(0,0,0,0.8)]"
+              style="transform: skewX(-10deg)"
+            >
+              TokioFilms
+            </h1>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+              <a
+                href="#"
+                class="rounded-md px-3 py-2 text-sm font-medium text-white"
+                aria-current="page"
+                >Home</a
+              >
+              <a
+                href="#"
+                class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
+                >Peliculas</a
+              >
+              <a
+                href="#"
+                class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
+                >Series</a
+              >
+              <a
+                href="#"
+                class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
+                >Buscar</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+        >
+          <!-- Profile dropdown -->
+          <div class="relative ml-3">
+            <div>
+              <!-- Botón del usuario -->
+              <button
+                type="button"
+                class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                id="user-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                <span class="absolute -inset-1.5"></span>
+                <span class="sr-only">Open user menu</span>
+                <img
+                  class="size-8 rounded-full"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt=""
+                />
+              </button>
+            </div>
+
+            <!--
+            Dropdown menu, show/hide based on menu state.
+
+            Entering: "transition ease-out duration-100"
+              From: "transform opacity-0 scale-95"
+              To: "transform opacity-100 scale-100"
+            Leaving: "transition ease-in duration-75"
+              From: "transform opacity-100 scale-100"
+              To: "transform opacity-0 scale-95"
+          -->
+            <div
+              id="user-menu"
+              class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5"
+            >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700"
+                role="menuitem"
+                >Your Profile</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700"
+                role="menuitem"
+                >Settings</a
+              >
+              {% if request.user.is_superuser %}
+              <a
+                href="/dashboard/"
+                class="block px-4 py-2 text-sm text-gray-700"
+                role="menuitem"
+                >Ir a Panel</a
+              >
+              {% endif %}
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  role="menuitem"
+                  class="block px-4 py-2 text-sm text-gray-700"
+                >
+                  Cerrar Sesión
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="sm:hidden hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pt-2 pb-3">
+        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-white"
+          aria-current="page"
+          >Home</a
+        >
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
+          >Peliculas</a
+        >
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
+          >Series</a
+        >
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
+          >Buscar</a
+        >
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const carousel = document.querySelector(".carousel-inner");
+      const items = document.querySelectorAll(".carousel-item");
+      const prevBtn = document.querySelector(".prev");
+      const nextBtn = document.querySelector(".next");
+
+      let position = 0;
+      const itemWidth = items[0].clientWidth;
+
+      function updateCarousel() {
+        carousel.style.transform = `translateX(${position}px)`;
+      }
+
+      prevBtn.addEventListener("click", () => {
+        position = Math.min(position + itemWidth, 0);
+        updateCarousel();
+      });
+
+      nextBtn.addEventListener("click", () => {
+        const maxPosition = -(
+          items.length * itemWidth -
+          carousel.parentElement.clientWidth
+        );
+        position = Math.max(position - itemWidth, maxPosition);
+        updateCarousel();
+      });
+
+      // Ajuste responsivo
+      window.addEventListener("resize", () => {
+        position = 0;
+        updateCarousel();
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Botón y menú de usuario
+      const mobileMenuButton = document.querySelector(
+        '[aria-controls="mobile-menu"]'
+      );
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("hidden"); // Alterna la visibilidad del menú
+        });
+      }
+
+      const userMenuButton = document.getElementById("user-menu-button");
+      const userMenu = document.getElementById("user-menu"); // Ahora seleccionamos por ID
+
+      // Asegurar que los elementos existen
+      if (userMenuButton && userMenu) {
+        userMenuButton.addEventListener("click", function (event) {
+          event.stopPropagation(); // Evita que el evento se propague al documento
+          userMenu.classList.toggle("hidden");
+        });
+
+        // Cerrar menú si se hace clic fuera de él
+        document.addEventListener("click", function (event) {
+          if (
+            !userMenu.contains(event.target) &&
+            !userMenuButton.contains(event.target)
+          ) {
+            userMenu.classList.add("hidden");
+          }
+        });
+      }
+    });
+  </script>

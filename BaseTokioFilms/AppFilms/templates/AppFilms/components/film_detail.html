@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ film.title }}</title>
+</head>
+<body class="bg-[#141414] text-white">
+    <div class="max-w-5xl mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-4">{{ film.title }}</h1>
+        <img src="{{ film.image.url }}" alt="{{ film.title }}" class="w-full h-auto mb-4">
+        <p>{{ film.description }}</p>
+        <!-- Add more film details as needed -->
+    </div>
+</body>
+</html>

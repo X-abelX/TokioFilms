@@ -17,6 +17,7 @@
               <div
                 class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg h-[180px] sm:h-[200px]"
               >
+                <a href="{% url 'film_detail' film.id %}">
                 {% if film.image %}
                   <img
                     src="{{ film.image.url }}"
@@ -30,6 +31,7 @@
                     class="w-full h-full object-cover"
                   />
                 {% endif %}
+              </a>
               </div>
             </div>
           {% endfor %}

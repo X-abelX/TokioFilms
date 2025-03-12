@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
@@ -14,14 +14,11 @@ from datetime import datetime
 def index(request):
     return render(request, 'AppFilms/index.html')
 
-def prueba(request):
-    return render(request, 'AppFilms/prueba.html')
-
 @login_required
 def home(request):
     categories = categoryFilms.objects.all().order_by('position').prefetch_related('film_set')
     films = film.objects.all()
-    return render(request, 'AppFilms/home.html', {'categories': categories, 'films': films})
+    return render(request, 'AppFilms/home/home.html', {'categories': categories, 'films': films})
 
 @login_required
 def dashboard(request):
@@ -29,7 +26,7 @@ def dashboard(request):
         return redirect('home')
     categories = categoryFilms.objects.all().order_by('position').prefetch_related('film_set')
     films = film.objects.all()
-    return render(request, 'AppFilms/dashboard.html', {'categories': categories, 'films': films})                                                                                                                                                                                       
+    return render(request, 'AppFilms/dashboard/dashboard.html', {'categories': categories, 'films': films})                                                                                                                                                                                       
 
 def login(request):
     if request.user.is_authenticated:
@@ -42,7 +39,7 @@ def login(request):
             return redirect('home')
     else:
         form = AuthenticationForm()
-    return render(request, 'AppFilms/login.html', {'form': form})
+    return render(request, 'AppFilms/auth/login.html', {'form': form})
 
 def register(request):
     if request.user.is_authenticated:
@@ -58,7 +55,7 @@ def register(request):
             return redirect('home')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'AppFilms/register.html', {'form': form})
+    return render(request, 'AppFilms/auth/register.html', {'form': form})
 
 @csrf_exempt
 def update_order(request):
@@ -160,5 +157,8 @@ def add_film(request):
 
 def lista_items(request):
     categories = categoryFilms.objects.all().order_by('position') # Obtener los datos actualizados
-    return render(request, 'AppFilms/list.html', {'categories': categories})
+    return render(request, 'AppFilms/components/list.html', {'categories': categories})
 
+def film_detail(request, film_id):
+    film_instance = get_object_or_404(film, id=film_id)
+    return render(request, 'AppFilms/components/film_detail.html', {'film': film_instance})

@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="bg-[#141414] mb-10">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
@@ -142,12 +143,21 @@
                 >Settings</a
               >
               {% if request.user.is_superuser %}
+              {% if request.path == '/home/' %}
               <a
                 href="/dashboard/"
                 class="block px-4 py-2 text-sm text-gray-700"
                 role="menuitem"
                 >Ir a Panel</a
               >
+              {% else %}
+              <a
+                href="/home/"
+                class="block px-4 py-2 text-sm text-gray-700"
+                role="menuitem"
+                >Ir a plataforma</a
+              >
+              {% endif %}
               {% endif %}
               <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
@@ -229,39 +239,4 @@
       });
     });
   </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Botón y menú de usuario
-      const mobileMenuButton = document.querySelector(
-        '[aria-controls="mobile-menu"]'
-      );
-      const mobileMenu = document.getElementById("mobile-menu");
-
-      if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener("click", function () {
-          mobileMenu.classList.toggle("hidden"); // Alterna la visibilidad del menú
-        });
-      }
-
-      const userMenuButton = document.getElementById("user-menu-button");
-      const userMenu = document.getElementById("user-menu"); // Ahora seleccionamos por ID
-
-      // Asegurar que los elementos existen
-      if (userMenuButton && userMenu) {
-        userMenuButton.addEventListener("click", function (event) {
-          event.stopPropagation(); // Evita que el evento se propague al documento
-          userMenu.classList.toggle("hidden");
-        });
-
-        // Cerrar menú si se hace clic fuera de él
-        document.addEventListener("click", function (event) {
-          if (
-            !userMenu.contains(event.target) &&
-            !userMenuButton.contains(event.target)
-          ) {
-            userMenu.classList.add("hidden");
-          }
-        });
-      }
-    });
-  </script>
+  <script src="{% static 'AppFilms/js/navbar.js' %}"></script>

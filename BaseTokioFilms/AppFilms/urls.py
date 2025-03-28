@@ -16,5 +16,8 @@ urlpatterns = [
     path('add-film/', views.add_film, name='add_film'),
     path('lista_items/', views.lista_items, name='lista_items'),
     path('film/<int:film_id>/', views.film_detail, name='film_detail'),
+    path('films/', views.films, name='films'),
+    path('series/', views.series, name='series'),
+    path('film/<int:film_id>/like/', views.like_film, name='like_film'),
 ]
 

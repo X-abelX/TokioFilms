@@ -4,15 +4,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}TokioFilms{% endblock %}</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     {% load static %}
     <link
       rel="icon"
       href="{% static 'AppFilms/TokioFilms.ico' %}"
       type="image/x-icon"
     />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              netflix: {
+                red: '#E50914',
+                black: '#141414',
+                dark: '#0F0F0F',
+                light: '#F5F5F1'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style type="text/tailwindcss">
+      .hidden { display: none; }
+      .mobile-menu-open { transform: translateX(0); }
+      .mobile-menu-closed { transform: translateX(-100%); }
+      @layer utilities {
+        .text-shadow {
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .bg-gradient-dark {
+          background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.1) 100%);
+        }
+        .animate-fade-in {
+          animation: fadeIn 1.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+          0% { opacity: 0; transform: translateY(20px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .mobile-menu-open {
+          transform: translateX(0);
+        }
+        .mobile-menu-closed {
+          transform: translateX(-100%);
+        }
+      }
+    </style>
   </head>
-  <body class="bg-[#141414] min-h-screen">
+  <body class="bg-[#141414] text-white font-sans min-h-screen">
     {% block content %}
     <!-- Contenido predeterminado puede ir aquí -->
     {% endblock %}

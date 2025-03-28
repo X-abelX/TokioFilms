@@ -1,9 +1,18 @@
-<div class="max-w-5xl mx-auto p-8">
+<div class="max-w-5xl mx-auto p-8 mt-14">
     <!-- Formulario para añadir película -->
 <form id="add-film-form" method="POST" enctype="multipart/form-data" action="{% url 'add_film' %}">
 {% csrf_token %}
+<div class="p-4 bg-[#343434] rounded-md mb-4">
+<label for="type" class="font-medium text-white">Tipo</label>
+<select id="type" name="type" class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg">
+    <option value="pelicula" selected>Película</option>
+    <option value="serie">Serie</option>
+</select>
+</div>
 <div class="grid sm:grid-cols-2 sm:gap-4 w-full rounded-md bg-[#343434]">
+  
   <div class="pb-0 p-4 sm:pb-4">
+
     <label for="title" class="font-medium text-white">Título</label>
     <input
       id="title"
@@ -103,15 +112,18 @@
       </label>
     </div>
 
-    <label for="duration" class="font-medium text-white">Duración</label>
-    <input
-      id="duration"
-      name="duration"
-      type="number"
-      class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
-      placeholder="Duración (minutos)"
-      required
-    />
+    <div id="duration-field">
+      <label for="duration" class="font-medium text-white">Duración</label>
+      <input id="duration" name="duration" type="number" class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg" placeholder="Duración (minutos)" />
+    </div>
+
+    <div id="series-fields" class="hidden">
+      <label for="seasons" class="font-medium text-white">Número de Temporadas</label>
+      <input id="seasons" name="seasons" type="number" class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg" placeholder="Número de temporadas" />
+
+      <label for="episodes" class="font-medium text-white">Número de Capítulos</label>
+      <input id="episodes" name="episodes" type="number" class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg" placeholder="Número de capítulos" />
+    </div>
 
     <label for="datepicker" class="font-medium text-white">Fecha de lanzamiento</label>
     <div class="relative w-full">
@@ -259,8 +271,16 @@
     type="submit"
     class="w-full py-2 bg-[#1DB954] text-white font-medium rounded-lg"
   >
-    Añadir película
+    Añadir
   </button>
 </div>
 </form>
   </div>
+
+<script>
+  document.getElementById("type").addEventListener("change", function () {
+      const isSerie = this.value === "serie";
+      document.getElementById("duration-field").classList.toggle("hidden", isSerie);
+      document.getElementById("series-fields").classList.toggle("hidden", !isSerie);
+  });
+</script>

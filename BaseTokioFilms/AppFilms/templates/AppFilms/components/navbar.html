@@ -1,242 +1,89 @@
 {% load static %}
-<nav class="bg-[#141414] mb-10">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div class="relative flex h-16 items-center justify-between">
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-          <!-- Mobile menu button-->
-          <button
-            type="button"
-            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
-            aria-controls="mobile-menu"
-            aria-expanded="false"
-          >
-            <span class="absolute -inset-0.5"></span>
-            <span class="sr-only">Open main menu</span>
-            <!--
-            Icon when menu is closed.
 
-            Menu open: "hidden", Menu closed: "block"
-          -->
-            <svg
-              class="block size-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-              data-slot="icon"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-            <!--
-            Icon when menu is open.
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="fixed top-0 left-0 bottom-0 w-64 bg-netflix-black z-[60] transform -translate-x-full transition-transform duration-300 ease-in-out">
+  <div class="p-5 border-b border-white/10">
+    <a href="{% url 'home' %}" class="text-netflix-red font-bold text-2xl">TOKIOFILMS</a>
+    <button id="closeMobileMenu" class="absolute top-5 right-5">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+  <div class="p-5">
+    <ul class="space-y-4">
+      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Inicio</a></li>
+      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Series</a></li>
+      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Películas</a></li>
+      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Novedades</a></li>
+      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Mi lista</a></li>
+    </ul>
+  </div>
+</div>
+<!-- User Profile Dropdown -->
+<div id="userDropdown" class="fixed right-4 top-16 md:right-8 md:top-20 w-48 bg-netflix-black border border-white/10 rounded shadow-lg z-50 hidden">
+  <ul class="py-2">
+    <li><a href="#" class="block px-4 py-2 hover:bg-white/10 transition-colors">Your Profile</a></li>
+    <li><a href="#" class="block px-4 py-2 hover:bg-white/10 transition-colors">Settings</a></li>
+    {% if request.user.is_superuser %}
+    {% if request.path == '/home/' %}
+    <li><a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-white/10 transition-colors">Ir a Panel</a></li>
+    {% else %}
+    <li><a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-white/10 transition-colors">Ir a Plataforma</a></li>
+    {% endif %}
+    {% endif %}
 
-            Menu open: "block", Menu closed: "hidden"
-          -->
-            <svg
-              class="hidden size-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-              data-slot="icon"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18 18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-        <div
-          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
-        >
-          <div class="flex shrink-0 items-center">
-            <h1
-              class="text-red-600 text-2xl font-bold tracking-wide [text-shadow:0_0_10px_rgba(0,0,0,0.8)]"
-              style="transform: skewX(-10deg)"
-            >
-              TokioFilms
-            </h1>
-          </div>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a
-                href="#"
-                class="rounded-md px-3 py-2 text-sm font-medium text-white"
-                aria-current="page"
-                >Home</a
-              >
-              <a
-                href="#"
-                class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
-                >Peliculas</a
-              >
-              <a
-                href="#"
-                class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
-                >Series</a
-              >
-              <a
-                href="#"
-                class="rounded-md px-3 py-2 text-sm font-medium hover:text-white text-gray-400"
-                >Buscar</a
-              >
-            </div>
-          </div>
-        </div>
-        <div
-          class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
-        >
-          <!-- Profile dropdown -->
-          <div class="relative ml-3">
-            <div>
-              <!-- Botón del usuario -->
-              <button
-                type="button"
-                class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                id="user-menu-button"
-                aria-expanded="false"
-                aria-haspopup="true"
-              >
-                <span class="absolute -inset-1.5"></span>
-                <span class="sr-only">Open user menu</span>
-                <img
-                  class="size-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
-              </button>
-            </div>
+    <li><hr class="my-1 border-white/10"></li>
+    <li>
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button
+        type="submit"
+        role="menuitem"
+        class="block px-4 py-2 hover:bg-white/10 transition-colors w-full"
+      >
+        Cerrar Sesión
+      </button>
+    </form>
+    </li>
+  </ul>
+</div>
 
-            <!--
-            Dropdown menu, show/hide based on menu state.
+<!-- Overlay for Mobile Menu -->
+<div id="overlay" class="fixed inset-0 bg-black/80 z-[55] hidden"></div>
 
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          -->
-            <div
-              id="user-menu"
-              class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5"
-            >
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700"
-                role="menuitem"
-                >Your Profile</a
-              >
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700"
-                role="menuitem"
-                >Settings</a
-              >
-              {% if request.user.is_superuser %}
-              {% if request.path == '/home/' %}
-              <a
-                href="/dashboard/"
-                class="block px-4 py-2 text-sm text-gray-700"
-                role="menuitem"
-                >Ir a Panel</a
-              >
-              {% else %}
-              <a
-                href="/home/"
-                class="block px-4 py-2 text-sm text-gray-700"
-                role="menuitem"
-                >Ir a plataforma</a
-              >
-              {% endif %}
-              {% endif %}
-              <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button
-                  type="submit"
-                  role="menuitem"
-                  class="block px-4 py-2 text-sm text-gray-700"
-                >
-                  Cerrar Sesión
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
+<!-- Navbar -->
+<nav class="bg-gradient-to-b from-black/80 to-transparent fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <button id="mobileMenuButton" class="md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <a href="{% url 'home' %}" class="text-netflix-red font-bold text-2xl md:text-3xl">TOKIOFILMS</a>
+      <div class="hidden md:flex ml-8 gap-6">
+        <a href="{% url 'home' %}" class="text-sm hover:text-white/70 transition-colors {% if request.path == '/home/' %} font-bold {% else %} font-light {% endif %}">Inicio</a>
+        <a href="{% url 'series' %}" class="text-sm hover:text-white/70 transition-colors {% if request.path == '/series/' %} font-bold {% else %} font-light {% endif %}">Series</a>
+        <a href="{% url 'films' %}" class="text-sm hover:text-white/70 transition-colors {% if request.path == '/films/' %} font-bold {% else %} font-light {% endif %}">Películas</a>
+        <a href="#" class="text-sm font-light hover:text-white/70 transition-colors">Mis listas</a>
       </div>
     </div>
-
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="sm:hidden hidden" id="mobile-menu">
-      <div class="space-y-1 px-2 pt-2 pb-3">
-        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-white"
-          aria-current="page"
-          >Home</a
-        >
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
-          >Peliculas</a
-        >
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
-          >Series</a
-        >
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:text-white"
-          >Buscar</a
-        >
+    <div class="flex items-center gap-4">
+      <button class="text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+      <div class="flex items-center gap-2 cursor-pointer" id="userProfileButton">
+        <div class="w-8 h-8 rounded bg-purple-600 flex items-center justify-center">
+          <span class="text-xs font-medium">U</span>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
       </div>
     </div>
-  </nav>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const carousel = document.querySelector(".carousel-inner");
-      const items = document.querySelectorAll(".carousel-item");
-      const prevBtn = document.querySelector(".prev");
-      const nextBtn = document.querySelector(".next");
-
-      let position = 0;
-      const itemWidth = items[0].clientWidth;
-
-      function updateCarousel() {
-        carousel.style.transform = `translateX(${position}px)`;
-      }
-
-      prevBtn.addEventListener("click", () => {
-        position = Math.min(position + itemWidth, 0);
-        updateCarousel();
-      });
-
-      nextBtn.addEventListener("click", () => {
-        const maxPosition = -(
-          items.length * itemWidth -
-          carousel.parentElement.clientWidth
-        );
-        position = Math.max(position - itemWidth, maxPosition);
-        updateCarousel();
-      });
-
-      // Ajuste responsivo
-      window.addEventListener("resize", () => {
-        position = 0;
-        updateCarousel();
-      });
-    });
-  </script>
-  <script src="{% static 'AppFilms/js/navbar.js' %}"></script>
+  </div>
+</nav>
+<script src="{% static 'AppFilms/js/navbar.js' %}"></script>

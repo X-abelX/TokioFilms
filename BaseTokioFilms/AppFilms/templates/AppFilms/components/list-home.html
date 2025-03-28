@@ -1,0 +1,160 @@
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <h2 class="text-[#F1F0FB] text-2xl font-bold mb-2">Recomendaciones</h2>
+  <div class="relative carousel-container group min-w-full">
+    <!-- Navigation Buttons -->
+    <div class="carousel overflow-hidden">
+      <div class="carousel-inner flex transition-transform duration-500 ease-out min-w-full">
+        {% for film in recommended_films %}
+        <div class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105 flex-shrink-0">
+          <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg h-[180px] sm:h-[200px]">
+            <a href="{% url 'film_detail' film.id %}">
+              {% if film.image %}
+              <img src="{{ film.image.url }}" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% else %}
+              <img src="https://picsum.photos/seed/{{ forloop.counter }}/1280/720" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% endif %}
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="carousel-button prev absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+      ❮
+    </button>
+    <button class="carousel-button next absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+      ❯
+    </button>
+  </div>
+</div>
+
+<!-- Latest Releases -->
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <h2 class="text-[#F1F0FB] text-2xl font-bold mb-2">Novedades</h2>
+  <div class="relative carousel-container group min-w-full">
+    <!-- Navigation Buttons -->
+    <div class="carousel overflow-hidden">
+      <div class="carousel-inner flex transition-transform duration-500 ease-out min-w-full">
+        {% for film in latest_films %}
+        <div class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105 flex-shrink-0">
+          <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg h-[180px] sm:h-[200px]">
+            <a href="{% url 'film_detail' film.id %}">
+              {% if film.image %}
+              <img src="{{ film.image.url }}" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% else %}
+              <img src="https://picsum.photos/seed/{{ forloop.counter }}/1280/720" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% endif %}
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="carousel-button prev absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      ❮
+    </button>
+    <button class="carousel-button next absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      ❯
+    </button>
+  </div>
+</div>
+
+<!-- Top 10 Films -->
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <h2 class="text-[#F1F0FB] text-2xl font-bold mb-2">Top 10 Películas</h2>
+  <div class="relative carousel-container group min-w-full">
+    <!-- Navigation Buttons -->
+    <div class="carousel overflow-hidden">
+      <div class="carousel-inner flex transition-transform duration-500 ease-out min-w-full">
+        {% for film in top_films %}
+        <div class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105 flex-shrink-0">
+          <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg h-[180px] sm:h-[200px]">
+            <a href="{% url 'film_detail' film.id %}">
+              {% if film.image %}
+              <img src="{{ film.image.url }}" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% else %}
+              <img src="https://picsum.photos/seed/{{ forloop.counter }}/1280/720" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% endif %}
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="carousel-button prev absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      ❮
+    </button>
+    <button class="carousel-button next absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      ❯
+    </button>
+  </div>
+</div>
+
+<!-- Top 10 Series -->
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <h2 class="text-[#F1F0FB] text-2xl font-bold mb-2">Top 10 Series</h2>
+  <div class="relative carousel-container group min-w-full">
+    <!-- Navigation Buttons -->
+    <div class="carousel overflow-hidden">
+      <div class="carousel-inner flex transition-transform duration-500 ease-out min-w-full">
+        {% for film in top_series %}
+        <div class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105 flex-shrink-0">
+          <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg h-[180px] sm:h-[200px]">
+            <a href="{% url 'film_detail' film.id %}">
+              {% if film.image %}
+              <img src="{{ film.image.url }}" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% else %}
+              <img src="https://picsum.photos/seed/{{ forloop.counter }}/1280/720" alt="{{ film.title }}" class="w-full h-full object-cover" />
+              {% endif %}
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="carousel-button prev absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      ❮
+    </button>
+    <button class="carousel-button next absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      ❯
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.carousel-container').forEach(container => {
+      const carousel = container.querySelector(".carousel-inner");
+      const items = container.querySelectorAll(".carousel-item");
+      const prevBtn = container.querySelector(".prev");
+      const nextBtn = container.querySelector(".next");
+  
+      let position = 0;
+      const itemWidth = items[0]?.clientWidth || 0;
+  
+      function updateCarousel() {
+        carousel.style.transform = `translateX(${position}px)`;
+      }
+  
+      prevBtn?.addEventListener("click", () => {
+        position = Math.min(position + itemWidth, 0);
+        updateCarousel();
+      });
+  
+      nextBtn?.addEventListener("click", () => {
+        const maxPosition = -(
+          items.length * itemWidth -
+          carousel.parentElement.clientWidth
+        );
+        position = Math.max(position - itemWidth, maxPosition);
+        updateCarousel();
+      });
+  
+      // Ajuste responsivo
+      window.addEventListener("resize", () => {
+        position = 0;
+        updateCarousel();
+      });
+    });
+  });
+  </script>

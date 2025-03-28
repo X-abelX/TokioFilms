@@ -1,24 +1,22 @@
-{% for category in categories %}
-  {% if category.film_set.all %}
+{% for category_data in categories %}
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <h2 class="text-[#F1F0FB] text-2xl font-bold mb-2">
-      {{ category.name }}
+      {{ category_data.category.name }}
     </h2>
     <div class="relative carousel-container group min-w-full">
       <div class="carousel overflow-hidden">
         <div
           class="carousel-inner flex transition-transform duration-500 ease-out min-w-full"
-          id="carousel-{{ category.id }}"
+          id="carousel-{{ category_data.category.id }}"
         >
-          {% for film in category.film_set.all %}
-            {% if not film.type == 'serie' %}
+        {% for film in category_data.category.film_set.all %}
+        {% if film.type == 'serie' %}
             <div
               class="carousel-item min-w-[280px] sm:min-w-[320px] p-2 transition-all duration-300 hover:scale-105 flex-shrink-0"
             >
               <div
                 class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg h-[180px] sm:h-[200px]"
               >
-              
                 <a href="{% url 'film_detail' film.id %}">
                 {% if film.image %}
                   <img
@@ -36,7 +34,7 @@
               </a>
               </div>
             </div>
-            {% endif %}
+          {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -44,19 +42,18 @@
       <!-- Botones de navegación -->
       <button
         class="carousel-button prev absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        data-carousel="{{ category.id }}"
+        data-carousel="{{ category_data.category.id }}"
       >
         ❮
       </button>
       <button
         class="carousel-button next absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white w-12 h-24 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        data-carousel="{{ category.id }}"
+        data-carousel="{{ category_data.category.id }}"
       >
         ❯
       </button>
     </div>
   </div>
-  {% endif %}
 {% endfor %}
 
 <script>
@@ -95,4 +92,4 @@
         });
       });
     });
-    </script>
+</script>

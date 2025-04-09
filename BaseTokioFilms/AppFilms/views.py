@@ -1,3 +1,4 @@
+# Importamos los modelos de Django mas algunas funcionalidades.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login as auth_login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
@@ -11,10 +12,42 @@ import json
 from datetime import datetime
 from django.contrib import messages
 
-# Create your views here.
+# Cramos nuestra vista principal. 
 def index(request):
     return render(request, 'AppFilms/index.html')
 
+# Creamos la vista de login.
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'AppFilms/auth/login.html', {'form': form})
+
+# Creamos la vista de registro.
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            auth_login(request, user)
+            return redirect('home')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'AppFilms/auth/register.html', {'form': form})
+
+# Creamos la vista Home en donde el usuario ira una vez logueado.
 @login_required
 def home(request):
     # Fetch top 10 films based on likes
@@ -38,12 +71,14 @@ def home(request):
         'recommended_films': recommended_films,
     })
 
+# Creamos una vista que nos proporcione todas las peliculas 
 @login_required
 def films(request):
     categories = categoryFilms.objects.all().order_by('position').prefetch_related('film_set')
     films = film.objects.all()
     return render(request, 'AppFilms/films/films.html', {'categories': categories, 'films': films})
 
+# Creamos una vista que nos proporcione todas las series.
 @login_required
 def series(request):
     categories_with_series = []
@@ -57,6 +92,7 @@ def series(request):
     
     return render(request, 'AppFilms/series/series.html', {'categories': categories_with_series})
 
+# Creamos una vista que nos proporcione las peliculas de nuestra lista
 @login_required
 def mylist(request):
     # Retrieve films from the user's list
@@ -70,11 +106,13 @@ def mylist(request):
         'liked_films': liked_films,
     })
 
+# Creamos una vista en la que podremos buscar peliculas y series.
 @login_required
 def search(request):
     films = film.objects.all()
     return render(request, 'AppFilms/search/search.html', {'films': films})
 
+#creamos una vista en la que podremos hacer cambios en nuestro perfil.
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -105,6 +143,8 @@ def profile(request):
 
     return render(request, 'AppFilms/profile/profile.html')
 
+
+# Creamos una vista para ver los detalles de una pelicula o serie.
 @login_required
 def category_detail(request, category_id, type):
     category = get_object_or_404(categoryFilms, id=category_id)
@@ -115,43 +155,17 @@ def category_detail(request, category_id, type):
         'films': films,
     })
 
+
+# Creamos una vista de administracion en donde podremos crear, editar y eliminar peliculas y series. Solo se podra acceder a esta vista si eres un usuario administrador.
 @login_required
 def dashboard(request):
     if not request.user.is_superuser:
         return redirect('home')
     categories = categoryFilms.objects.all().order_by('position').prefetch_related('film_set')
     films = film.objects.all()
-    return render(request, 'AppFilms/dashboard/dashboard.html', {'categories': categories, 'films': films})                                                                                                                                                                                       
+    return render(request, 'AppFilms/dashboard/dashboard.html', {'categories': categories, 'films': films})                                                                                                                                                                                      
 
-def login(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            auth_login(request, user)
-            return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'AppFilms/auth/login.html', {'form': form})
-
-def register(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            auth_login(request, user)
-            return redirect('home')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'AppFilms/auth/register.html', {'form': form})
-
+# Creamos una funcionalidad en la que podamos actualizar el orden de las categorias y editar el nombre de las mismas.
 @csrf_exempt
 def update_order(request):
     if request.method == "POST":
@@ -172,6 +186,8 @@ def update_order(request):
         return JsonResponse({"status": "success"})
     return JsonResponse({"status": "failed"}, status=400)
 
+
+# Creamos una funcionalidad en la que podamos añadir categorias nuevas.
 @require_POST
 @csrf_exempt
 def add_category(request):
@@ -185,6 +201,8 @@ def add_category(request):
 
 from django.views.decorators.http import require_http_methods
 
+
+#Creamos una funcionalidad en la que podamos eliminar categorias.
 @require_http_methods(["DELETE"])
 @csrf_exempt
 def delete_category(request, category_id):
@@ -195,6 +213,8 @@ def delete_category(request, category_id):
     except categoryFilms.DoesNotExist:
         return JsonResponse({"status": "failed", "message": "Category not found"}, status=404)
 
+
+#Creamos una funcionalidad en la que podamos editar el nombre de las categorias.
 @require_POST
 @csrf_exempt
 def update_category_name(request, category_id):
@@ -210,6 +230,8 @@ def update_category_name(request, category_id):
             return JsonResponse({"status": "failed", "message": "Category not found"}, status=404)
     return JsonResponse({"status": "failed"}, status=400)
 
+
+#Creamos una funcionalidad en la que podamos añadir peliculas nuevas.
 @login_required
 def add_film(request):
     if request.method == "POST":
@@ -261,10 +283,12 @@ def add_film(request):
 
     return redirect("dashboard")
 
+#creamos una funcionalidad para poder ver las categorias
 def lista_items(request):
     categories = categoryFilms.objects.all().order_by('position') # Obtener los datos actualizados
     return render(request, 'AppFilms/components/list.html', {'categories': categories})
 
+#creamos una funcionalidad para poder ver los likes y listas
 @login_required
 def film_detail(request, film_id):
     film_instance = get_object_or_404(film, id=film_id)
@@ -279,6 +303,7 @@ def film_detail(request, film_id):
         'category': category,  # Pass categories to the template
     })
 
+# creamos una funcionalidad para dar likes a las peliculas y series.
 @login_required
 def like_film(request, film_id):
     film_instance = get_object_or_404(film, id=film_id)
@@ -297,6 +322,8 @@ def like_film(request, film_id):
     film_instance.save()
     return redirect('film_detail', film_id=film_id)
 
+
+# creamos una funcionalidad para añadir peliculas y series a nuestra lista.  
 @login_required
 def add_to_list(request, film_id):
     film_instance = get_object_or_404(film, id=film_id)

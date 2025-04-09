@@ -1,5 +1,8 @@
+#Importamos los modelos de Django.
 from django.db import models
 from django.contrib.auth.models import User
+
+#En este apartado creamos la tabla de categorias. Tanto peliculas como series.
 
 class categoryFilms(models.Model):
     name = models.CharField(max_length=100)
@@ -10,6 +13,9 @@ class categoryFilms(models.Model):
 
     class Meta:
         ordering = ['position']
+
+
+#En este apartado creamos la tabla de peliculas y series. Diferenciando entre si por el campo "type". Tienen relacion con la tabla de categorias.
 
 class film(models.Model):
     CATEGORY_CHOICES = [
@@ -49,6 +55,8 @@ class film(models.Model):
     def __str__(self):
         return self.title
 
+#En este apartado creamos la tabla de likes. Tiene relacion con los datos del usuario y la tabla de peliculas. Su funcion es guardar los datos del usuario y la pelicula que le dio like.
+
 class UserLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     film = models.ForeignKey(film, on_delete=models.CASCADE)
@@ -57,6 +65,9 @@ class UserLike(models.Model):
     class Meta:
         unique_together = ('user', 'film')
     
+
+#En este apartado creamos la tabla de listas. Tiene relacion con los datos del usuario y la tabla de peliculas. Su funcion es guardar los datos del usuario y la pelicula que le dio Añadir a mi lista.
+
 class userlistadd(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     film = models.ForeignKey(film, on_delete=models.CASCADE)

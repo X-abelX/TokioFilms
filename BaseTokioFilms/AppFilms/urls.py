@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView
 
+# En este apartado creamos las urls de la aplicacion.
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('login/', views.login, name='login'),

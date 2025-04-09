@@ -18,6 +18,11 @@ urlpatterns = [
     path('film/<int:film_id>/', views.film_detail, name='film_detail'),
     path('films/', views.films, name='films'),
     path('series/', views.series, name='series'),
+    path('mylist/', views.mylist, name='mylist'),
     path('film/<int:film_id>/like/', views.like_film, name='like_film'),
+    path('film/<int:film_id>/add-to-list/', views.add_to_list, name='add_to_list'),
+    path('category/<int:category_id>/<str:type>/', views.category_detail, name='category_detail'),
+    path('search/', views.search, name='search'),
+    path('profile/', views.profile, name='profile'),
 ]
 

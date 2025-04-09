@@ -1,0 +1,39 @@
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <!-- Search Input -->
+    <input type="text" id="searchInput" placeholder="Search..." class="w-full mb-4 p-2 bg-[#404040] text-white rounded-lg">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" id="filmGrid">
+      {% for film in films %}
+      <div class="film-item p-2 transition-all duration-300 hover:scale-105">
+        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg h-[300px]">
+          <a href="{% url 'film_detail' film.id %}">
+            {% if film.image %}
+            <img src="{{ film.image.url }}" alt="{{ film.title }}" class="w-full h-full object-cover" />
+            {% else %}
+            <img src="https://picsum.photos/seed/{{ forloop.counter }}/1280/720" alt="{{ film.title }}" class="w-full h-full object-cover" />
+            {% endif %}
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById('searchInput');
+        const filmItems = document.querySelectorAll('.film-item');
+
+        searchInput.addEventListener('input', function () {
+            const query = searchInput.value.toLowerCase();
+            filmItems.forEach(item => {
+                const title = item.querySelector('img').alt.toLowerCase();
+                if (title.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>

@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login as auth_login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import CustomUserCreationForm
-from .models import categoryFilms, film, UserLike
+from .forms import CustomUserCreationForm, UserProfileForm, UserPasswordChangeForm
+from .models import categoryFilms, film, UserLike , userlistadd
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
 from datetime import datetime
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -55,6 +56,64 @@ def series(request):
             })
     
     return render(request, 'AppFilms/series/series.html', {'categories': categories_with_series})
+
+@login_required
+def mylist(request):
+    # Retrieve films from the user's list
+    my_list_films = film.objects.filter(userlistadd__user=request.user).distinct()
+    
+    # Retrieve films that the user has liked
+    liked_films = film.objects.filter(userlike__user=request.user).distinct()
+
+    return render(request, 'AppFilms/mylist/mylist.html', {
+        'my_list': my_list_films,
+        'liked_films': liked_films,
+    })
+
+@login_required
+def search(request):
+    films = film.objects.all()
+    return render(request, 'AppFilms/search/search.html', {'films': films})
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        username = request.POST.get('name')
+        email = request.POST.get('email')
+        current_password = request.POST.get('currentPassword')
+        new_password = request.POST.get('newPassword')
+        confirm_password = request.POST.get('confirmPassword')
+
+        user = request.user
+
+        # Update username and email
+        user.username = username
+        user.email = email
+
+        # Check if new password is provided and matches
+        if new_password and new_password == confirm_password:
+            if user.check_password(current_password):
+                user.set_password(new_password)
+                update_session_auth_hash(request, user)  # Keep the user logged in
+            else:
+                messages.error(request, 'Current password is incorrect.')
+                return redirect('profile')
+
+        user.save()
+        messages.success(request, 'Your profile was successfully updated!')
+        return redirect('profile')
+
+    return render(request, 'AppFilms/profile/profile.html')
+
+@login_required
+def category_detail(request, category_id, type):
+    category = get_object_or_404(categoryFilms, id=category_id)
+    films = category.film_set.filter(type=type)  # Filter films by the specified type ('pelicula' or 'serie')
+
+    return render(request, 'AppFilms/category/category.html', {
+        'category': category,
+        'films': films,
+    })
 
 @login_required
 def dashboard(request):
@@ -210,10 +269,14 @@ def lista_items(request):
 def film_detail(request, film_id):
     film_instance = get_object_or_404(film, id=film_id)
     user_like_exists = UserLike.objects.filter(user=request.user, film=film_instance).exists()
-    
+    user_list_exists = userlistadd.objects.filter(user=request.user, film=film_instance).exists()
+    category = film_instance.categoryFilms # Fetch categories related to the film
+
     return render(request, 'AppFilms/components/film_detail.html', {
         'film': film_instance,
-        'user_like_exists': user_like_exists
+        'user_like_exists': user_like_exists,
+        'user_list_exists': user_list_exists,
+        'category': category,  # Pass categories to the template
     })
 
 @login_required
@@ -232,4 +295,18 @@ def like_film(request, film_id):
         film_instance.likes += 1
     
     film_instance.save()
+    return redirect('film_detail', film_id=film_id)
+
+@login_required
+def add_to_list(request, film_id):
+    film_instance = get_object_or_404(film, id=film_id)
+    user_list_item = userlistadd.objects.filter(user=request.user, film=film_instance).first()
+
+    if user_list_item:
+        # If the film is already in the list, remove it
+        user_list_item.delete()
+    else:
+        # If the film is not in the list, add it
+        userlistadd.objects.create(user=request.user, film=film_instance)
+
     return redirect('film_detail', film_id=film_id)

@@ -56,3 +56,11 @@ class UserLike(models.Model):
 
     class Meta:
         unique_together = ('user', 'film')
+    
+class userlistadd(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    film = models.ForeignKey(film, on_delete=models.CASCADE)
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'film')

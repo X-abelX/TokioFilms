@@ -1,7 +1,7 @@
 {% for category_data in categories %}
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <h2 class="text-[#F1F0FB] text-2xl font-bold mb-2">
-      {{ category_data.category.name }}
+      <a href="{% url 'category_detail' category_data.id 'serie' %}">{{ category_data.name }} > </a>
     </h2>
     <div class="relative carousel-container group min-w-full">
       <div class="carousel overflow-hidden">

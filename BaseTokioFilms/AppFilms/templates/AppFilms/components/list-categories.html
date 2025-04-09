@@ -2,7 +2,7 @@
   {% if category.film_set.all %}
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <h2 class="text-[#F1F0FB] text-2xl font-bold mb-2">
-      {{ category.name }}
+      <a href="{% url 'category_detail' category.id 'pelicula' %}">{{ category.name }} > </a>
     </h2>
     <div class="relative carousel-container group min-w-full">
       <div class="carousel overflow-hidden">

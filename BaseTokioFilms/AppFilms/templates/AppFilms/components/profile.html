@@ -1,0 +1,149 @@
+<div class="min-h-screen flex items-center justify-center bg-[#141414] text-gray-100 p-4">
+    <div class="w-full max-w-md">
+        <div class="mb-8 text-center">
+          <h2 class="text-3xl font-bold mb-2">Tu Perfil</h2>
+          <p class="text-gray-400">Actualiza tu información personal</p>
+        </div>
+        
+        <form id="profileForm" method="post" class="bg-[#1c1c1c] rounded-lg p-8 shadow-lg border border-gray-800">
+          {% csrf_token %}
+          <div class="space-y-6">
+            <!-- Name Field -->
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-300 mb-1">
+                Nombre Completo
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ request.user.username }}"
+                class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+                required
+              />
+            </div>
+            
+            <!-- Email Field -->
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-300 mb-1">
+                Dirección de Correo Electrónico
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ request.user.email }}"
+                class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+                required
+              />
+            </div>
+            
+            <!-- Divider -->
+            <div class="border-t border-gray-700 my-6"></div>
+            
+            <div class="mb-2">
+              <h3 class="text-lg font-medium">Cambiar Contraseña</h3>
+              <p class="text-sm text-gray-400">Deja en blanco para mantener tu contraseña actual</p>
+            </div>
+            
+            <!-- Current Password -->
+            <div>
+              <label for="currentPassword" class="block text-sm font-medium text-gray-300 mb-1">
+                Contraseña Actual
+              </label>
+              <input
+                type="password"
+                id="currentPassword"
+                name="currentPassword"
+                class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+              />
+            </div>
+            
+            <!-- New Password -->
+            <div>
+              <label for="newPassword" class="block text-sm font-medium text-gray-300 mb-1">
+                Nueva Contraseña
+              </label>
+              <input
+                type="password"
+                id="newPassword"
+                name="newPassword"
+                class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+                minlength="6"
+              />
+            </div>
+            
+            <!-- Confirm Password -->
+            <div>
+              <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-1">
+                Confirmar Nueva Contraseña
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="w-full mb-4 p-2 bg-[#141414] text-white rounded-lg"
+                minlength="6"
+              />
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="pt-4">
+              <button
+                type="submit"
+                id="submitButton"
+                class="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors duration-300 font-medium"
+              >
+                Actualizar Perfil
+              </button>
+            </div>
+    
+            <!-- Success message (hidden by default) -->
+            <div id="successMessage" class="hidden mt-4 p-3 bg-green-800/30 border border-green-700 text-green-200 rounded-md text-center">
+              ¡Perfil actualizado con éxito!
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  <script>
+    // Simple form handling
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Basic validation
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      if (newPassword && newPassword !== confirmPassword) {
+        alert("Las contraseñas no coinciden. Por favor, inténtalo de nuevo.");
+        return;
+      }
+      
+      // Simulate form submission
+      const submitButton = document.getElementById('submitButton');
+      const successMessage = document.getElementById('successMessage');
+      
+      submitButton.textContent = 'Actualizando...';
+      submitButton.disabled = true;
+      
+      // Simulate API call with timeout
+      setTimeout(function() {
+        submitButton.textContent = 'Actualizar Perfil';
+        submitButton.disabled = false;
+        
+        // Clear password fields
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+        
+        // Show success message
+        successMessage.classList.remove('hidden');
+        
+        // Hide success message after 3 seconds
+        setTimeout(function() {
+          successMessage.classList.add('hidden');
+        }, 3000);
+      }, 1000);
+    });
+  </script>

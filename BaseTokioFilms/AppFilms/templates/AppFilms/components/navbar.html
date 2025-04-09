@@ -12,19 +12,17 @@
   </div>
   <div class="p-5">
     <ul class="space-y-4">
-      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Inicio</a></li>
-      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Series</a></li>
-      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Películas</a></li>
-      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Novedades</a></li>
-      <li><a href="#" class="block py-2 hover:text-netflix-red transition-colors">Mi lista</a></li>
+      <li><a href="{% url 'home' %}" class="block py-2 hover:text-netflix-red transition-colors">Inicio</a></li>
+      <li><a href="{% url 'series' %}" class="block py-2 hover:text-netflix-red transition-colors">Series</a></li>
+      <li><a href="{% url 'films' %}" class="block py-2 hover:text-netflix-red transition-colors">Películas</a></li>
+      <li><a href="{% url 'mylist' %}" class="block py-2 hover:text-netflix-red transition-colors">Mi lista</a></li>
     </ul>
   </div>
 </div>
 <!-- User Profile Dropdown -->
 <div id="userDropdown" class="fixed right-4 top-16 md:right-8 md:top-20 w-48 bg-netflix-black border border-white/10 rounded shadow-lg z-50 hidden">
   <ul class="py-2">
-    <li><a href="#" class="block px-4 py-2 hover:bg-white/10 transition-colors">Your Profile</a></li>
-    <li><a href="#" class="block px-4 py-2 hover:bg-white/10 transition-colors">Settings</a></li>
+    <li><a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-white/10 transition-colors">Perfil</a></li>
     {% if request.user.is_superuser %}
     {% if request.path == '/home/' %}
     <li><a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-white/10 transition-colors">Ir a Panel</a></li>
@@ -62,19 +60,23 @@
         </svg>
       </button>
       <a href="{% url 'home' %}" class="text-netflix-red font-bold text-2xl md:text-3xl">TOKIOFILMS</a>
+      {% if not request.path == '/dashboard/' %}
       <div class="hidden md:flex ml-8 gap-6">
         <a href="{% url 'home' %}" class="text-sm hover:text-white/70 transition-colors {% if request.path == '/home/' %} font-bold {% else %} font-light {% endif %}">Inicio</a>
         <a href="{% url 'series' %}" class="text-sm hover:text-white/70 transition-colors {% if request.path == '/series/' %} font-bold {% else %} font-light {% endif %}">Series</a>
         <a href="{% url 'films' %}" class="text-sm hover:text-white/70 transition-colors {% if request.path == '/films/' %} font-bold {% else %} font-light {% endif %}">Películas</a>
-        <a href="#" class="text-sm font-light hover:text-white/70 transition-colors">Mis listas</a>
+        <a href="{% url 'mylist' %}" class="text-sm hover:text-white/70 transition-colors {% if request.path == '/mylist/' %} font-bold {% else %} font-light {% endif %}">Mis listas</a>
       </div>
+      {% endif %}
     </div>
     <div class="flex items-center gap-4">
+      <a href="{% url 'search' %}">
       <button class="text-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </button>
+      </a>
       <div class="flex items-center gap-2 cursor-pointer" id="userProfileButton">
         <div class="w-8 h-8 rounded bg-purple-600 flex items-center justify-center">
           <span class="text-xs font-medium">U</span>
